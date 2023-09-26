@@ -5,7 +5,7 @@ const FILMS = [
   {
     id:1,
     title: "Creed",
-    duration:115,
+    duration:113,
     budget:1.5,
     link:"https://www.imdb.com/title/tt3076658/"
   },
