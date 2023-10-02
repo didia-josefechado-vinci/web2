@@ -1,4 +1,4 @@
-### Create a film
+### Create a film 
 POST http://localhost:3000/films
 Content-Type: application/json
 
@@ -14,5 +14,8 @@ Content-Type: application/json
 @baseURL = http://localhost:3000
 
 GET {{baseURL}}/films/3
+
+### READ all with filter
+GET {{baseURL}}/films?minimum-duration=104
 
 

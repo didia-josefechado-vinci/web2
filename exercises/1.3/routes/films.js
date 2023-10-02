@@ -24,10 +24,23 @@ const FILMS = [
     link:"https://www.imdb.com/title/tt15671028/?ref_=hm_tpks_tt_t_9_pd_tp1_pbr_ic"
   }
 ];
-//read all the movies
-router.get('/', (req, res, next) => {
+
+router.get('/',(req,res,next) => {
+    const filterByDuration=req?.query?.['minimum-duration']
+    ? Number(req.query['minimum-duration'])
+    :undefined;
+
+    if(filterByDuration === undefined) return res.json(FILMS);
+
+    if(typeof filterByDuration !== 'number' || filterByDuration <=0 )
+      return res.json('Wrong minimum duration');
+
+    const filmsReachingMinimumDuration = FILMS.filter( (film) => film.duration >= filterByDuration);
+  
+
   console.log('GET /films');
-  res.json(FILMS);
+ return res.json(filmsReachingMinimumDuration);
+
 });
 
 // read films pizza identified by an id in the menu
@@ -41,19 +54,29 @@ router.get('/:id',(req,res) => {
 
 });
 
-router.get('/',(req,res,next) => {
-    const orderByDuration=req?.query?.minimum-duration?.includes('duration')
-    ? req.query.minimum-duration
-    :undefined;
-  let orderedFilm;
-  console.log(`order by ${orderByDuration ??'not requested'}`);
-  if(orderByDuration)
-    orderedFiml = [...FILMS].sort((a,b) => a.duration.localCompare(b.duration));
-  if(orderByTitle === '-duration') orderedFilm = orderedFilm.reversed();
+router.post('/',(req,res,next) =>{
+  const title = req?.body?.title?.length !== 0 ? req.body.title : undefined;
+  const duration = req?.body?.duration?.length !== 0 ? req.body.duration : undefined;
+  const budget = req?.body?.budget?.length !== 0 ? req.body.budget : undefined;
+  const link = req?.body?.link?.length !==0 ? req.body.link : undefined;
 
-  console.log('GET /films');
-  res.json(orderedFilm ?? FILMS);
+  if(!title || !duration || !budget || !link) return res.sendStatus(400);
 
+  const lastItemIndex = FILMS?.length !==0 ? FILMS.length -1 :undefined;
+  const lastId = lastItemIndex !== undefined ? FILMS[lastItemIndex]?.id:0;
+  const nextId = lastId +1;
+
+  const newFilm ={
+    id:nextId,
+    title:title,
+    duration:duration,
+    budget:budget,
+    link:link
+  };
+
+  FILMS.push(newFilm)
+
+  res.json(newFilm)
 });
 
 module.exports = router;
