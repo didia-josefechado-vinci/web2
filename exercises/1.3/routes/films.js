@@ -33,7 +33,7 @@ router.get('/',(req,res,next) => {
     if(filterByDuration === undefined) return res.json(FILMS);
 
     if(typeof filterByDuration !== 'number' || filterByDuration <=0 )
-      return res.json('Wrong minimum duration');
+      return res.sendStatus(404);
 
     const filmsReachingMinimumDuration = FILMS.filter( (film) => film.duration >= filterByDuration);
   
@@ -55,12 +55,18 @@ router.get('/:id',(req,res) => {
 });
 
 router.post('/',(req,res,next) =>{
-  const title = req?.body?.title?.length !== 0 ? req.body.title : undefined;
+  const title = req?.body?.title?.trim().length !== 0 ? req.body.title : undefined;
   const duration = req?.body?.duration?.length !== 0 ? req.body.duration : undefined;
   const budget = req?.body?.budget?.length !== 0 ? req.body.budget : undefined;
-  const link = req?.body?.link?.length !==0 ? req.body.link : undefined;
+  const link = req?.body?.link?.trim().length !==0 ? req.body.link : undefined;
 
   if(!title || !duration || !budget || !link) return res.sendStatus(400);
+
+  const findFilm=FILMS.find((film) => film.title===title);
+   
+  if(findFilm){
+    return res.sendStatus(409);
+  }
 
   const lastItemIndex = FILMS?.length !==0 ? FILMS.length -1 :undefined;
   const lastId = lastItemIndex !== undefined ? FILMS[lastItemIndex]?.id:0;

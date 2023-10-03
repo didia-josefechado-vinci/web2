@@ -10,12 +10,12 @@ Content-Type: application/json
     "link":"https://www.imdb.com/title/tt0476680/?ref_=ttls_li_tt"
 }
 
-### Read one pizza
+### Read one film
 @baseURL = http://localhost:3000
 
 GET {{baseURL}}/films/3
 
-### READ all with filter
+### READ all films with filter
 GET {{baseURL}}/films?minimum-duration=104
 
 
