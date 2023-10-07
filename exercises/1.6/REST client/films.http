@@ -1,0 +1,51 @@
+### Create a film 
+POST http://localhost:3000/films
+Content-Type: application/json
+
+{
+    "id":4,
+    "title": "Naruto",
+    "duration":90,
+    "budget":3,
+    "link":"https://www.imdb.com/title/tt0476680/?ref_=ttls_li_tt"
+}
+
+### Read one film
+@baseURL = http://localhost:3000
+
+GET {{baseURL}}/films/3
+
+### READ all films with filter
+GET {{baseURL}}/films?minimum-duration=104
+
+### DELETE film by id
+DELETE {{baseURL}}/films/1
+
+### Update the film by id
+PATCH {{baseURL}}/films/2
+Content-Type: application/json
+
+{
+    "title":"Love is blind"
+}
+
+### Try to update film with ID == 2 when missing one param
+PUT {{baseURL}}/films/2
+Content-Type: application/json
+
+{
+    "title":"Star Wars: Episode II – Attack of the Clones",
+    "duration": 142,
+    "budget": 115,
+}
+
+### Create new film with ID == 666
+PUT {{baseURL}}/films/666
+Content-Type: application/json
+
+{
+    "title":"Attack of the beast",
+    "duration": 666,
+    "budget": 666,
+    "link":"https://666"
+}
