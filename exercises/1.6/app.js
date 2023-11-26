@@ -1,4 +1,5 @@
 var express = require('express');
+const pocketBase = require('pocketbase');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
